@@ -1,24 +1,618 @@
-<html lang="" en>
+<!doctype html>
+<html lang="en">
 
 <head>
-  <title>REDJ Media</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>REDJ Media | Real Estate Photo Enhancement</title>
   <meta name="description"
-    content="Elevate your listings with professional, natural-looking enhancements. We provide high-quality photo improvements for Texas real estate professionals, ensuring your listings stand out without the high costs of traditional photography.">
+    content="Elevate your listings with professional, natural-looking photo enhancements for Texas real estate professionals.">
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #202020;
+      background: #fff;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+      --accent: #e83f1b;
+      --muted: #656565;
+      --surface: #f5f2ee;
+      --content-width: 1280px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    a:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 4px;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 1;
+      padding: 0.6rem 1rem;
+      transform: translateY(-180%);
+      background: #fff;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .site-header,
+    .site-footer,
+    .section-inner {
+      width: min(var(--content-width), calc(100% - 3rem));
+      margin-inline: auto;
+    }
+
+    .site-header {
+      display: flex;
+      align-items: center;
+      min-height: 92px;
+    }
+
+    .brand img {
+      width: 250px;
+      height: 83px;
+      object-fit: contain;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: center;
+      gap: clamp(2rem, 6vw, 6rem);
+      width: min(1440px, calc(100% - 3rem));
+      min-height: 590px;
+      margin: 1rem auto 6rem;
+    }
+
+    .hero-copy {
+      padding: 2rem 0 2rem max(0px, calc((100vw - var(--content-width)) / 2));
+    }
+
+    .hero-mark {
+      width: 112px;
+      height: 80px;
+      margin-bottom: 1.5rem;
+      object-fit: contain;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 600px;
+      margin-bottom: 1.25rem;
+      font-size: clamp(3rem, 6.4vw, 5.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .hero-copy > p {
+      max-width: 540px;
+      margin-bottom: 2rem;
+      color: var(--muted);
+      font-size: 1.1rem;
+    }
+
+    .hero-image {
+      display: grid;
+      min-height: 500px;
+      place-items: center;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .hero-image img {
+      width: min(90%, 700px);
+      max-height: 500px;
+      object-fit: contain;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.75rem 1.25rem;
+      border: 1px solid #202020;
+      border-radius: 2px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: background-color 160ms ease, color 160ms ease;
+    }
+
+    .button-primary {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .button:hover {
+      background: #202020;
+      color: #fff;
+    }
+
+    .section {
+      padding-block: 5.5rem;
+    }
+
+    .section-heading {
+      max-width: 680px;
+      margin: 0 auto 2.5rem;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 0.75rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+    }
+
+    .section-heading p,
+    .section-copy {
+      color: var(--muted);
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+
+    .comparison-card {
+      margin: 0;
+      padding: 1rem;
+      background: var(--surface);
+    }
+
+    .comparison-images {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .comparison-image {
+      position: relative;
+      display: grid;
+      min-height: 210px;
+      place-items: center;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .comparison-image img {
+      width: 70%;
+      height: 170px;
+      object-fit: contain;
+    }
+
+    .comparison-image span {
+      position: absolute;
+      bottom: 0.6rem;
+      left: 0.6rem;
+      padding: 0.2rem 0.55rem;
+      background: #fff;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .comparison-card figcaption {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .pricing {
+      background: #202020;
+      color: #fff;
+      text-align: center;
+    }
+
+    .pricing .section-inner {
+      max-width: 760px;
+    }
+
+    .pricing p {
+      margin-bottom: 1.75rem;
+      color: #e3e3e3;
+    }
+
+    .pricing .button {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .pricing .button:hover {
+      border-color: #fff;
+      background: #fff;
+      color: #202020;
+    }
+
+    .value {
+      display: grid;
+      grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+      align-items: start;
+      gap: 3rem;
+    }
+
+    .value h2 {
+      margin-bottom: 0;
+    }
+
+    .value p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .audiences {
+      background: var(--surface);
+    }
+
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
+    }
+
+    .audience-grid article {
+      padding-top: 1rem;
+      border-top: 2px solid var(--accent);
+    }
+
+    .audience-grid h3 {
+      margin-bottom: 0.65rem;
+      font-size: 1.35rem;
+    }
+
+    .audience-grid p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .site-footer {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 2rem;
+      padding-block: 3rem 1.5rem;
+    }
+
+    .footer-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.5rem;
+      color: var(--muted);
+    }
+
+    .footer-contact p {
+      margin-bottom: 0.4rem;
+    }
+
+    .footer-bottom {
+      display: flex;
+      grid-column: 1 / -1;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #dedede;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .footer-bottom p {
+      margin-bottom: 0;
+    }
+
+    .social-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .social-links a {
+      color: #202020;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    @media (max-width: 760px) {
+      .site-header,
+      .site-footer,
+      .section-inner {
+        width: min(100% - 2rem, var(--content-width));
+      }
+
+      .site-header {
+        min-height: 76px;
+      }
+
+      .brand img {
+        width: 92px;
+        height: 62px;
+      }
+
+      .hero {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        width: calc(100% - 2rem);
+        min-height: 0;
+        margin: 0 auto 3rem;
+      }
+
+      .hero-copy {
+        padding: 2rem 0 0;
+      }
+
+      .hero-mark {
+        width: 90px;
+        height: 64px;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        font-size: clamp(2.8rem, 12vw, 4.5rem);
+      }
+
+      .hero-image {
+        min-height: 320px;
+      }
+
+      .section {
+        padding-block: 3.75rem;
+      }
+
+      .gallery,
+      .value {
+        grid-template-columns: 1fr;
+      }
+
+      .value {
+        gap: 1rem;
+      }
+
+      .audience-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .site-footer {
+        grid-template-columns: 1fr;
+      }
+
+      .footer-bottom {
+        grid-column: auto;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .comparison-images {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .comparison-image {
+        min-height: 155px;
+      }
+
+      .comparison-image img {
+        height: 120px;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
 </head>
 
-<body>
-  <div>
-    <div>
-      <p>
-        <img src="./images/redj-banner-with-tagline.png" alt="REDJ Banner with tagline." , width="100%" , height="auto">
-      </p>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="REDJ Media home">
+      <img src="./images/redj-media-banner-no-tagline.png" alt="REDJ Media logo">
+    </a>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <img class="brand" src="./images/real-estate-photo-enhancement.png" alt="REDJ Media logo">
+        <p>Elevate your listings with professional, natural-looking enhancements. We provide high-quality photo
+          improvements for Texas real estate professionals, ensuring your listings stand out without the high costs of
+          traditional photography.</p>
+        <div class="actions">
+          <a class="button button-primary" href="#pricing">Enhance Your Listings</a>
+          <a class="button" href="#pricing">View Packages</a>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="./images/living-room-example.png"
+          alt="REDJ Media logo placeholder for a real estate photo">
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="improvements-title">
+      <div class="section-inner">
+        <div class="section-heading">
+          <h2 id="improvements-title">Natural Improvements</h2>
+        </div>
+        <div class="gallery">
+          <figure class="comparison-card">
+            <div class="comparison-images">
+              <div class="comparison-image">
+                <img src="./images/redj-logo-transparent-background.png"
+                  alt="REDJ Media logo placeholder for original listing">
+                <span>Original Listing</span>
+              </div>
+              <div class="comparison-image">
+                <img src="./images/redj-logo-transparent-background.png"
+                  alt="REDJ Media logo placeholder for enhanced listing">
+                <span>Enhanced Quality</span>
+              </div>
+            </div>
+            <figcaption>Before enhancement: Natural textures and authentic Texas charm.</figcaption>
+          </figure>
+          <figure class="comparison-card">
+            <div class="comparison-images">
+              <div class="comparison-image">
+                <img src="./images/redj-logo-transparent-background.png"
+                  alt="REDJ Media logo placeholder for original listing">
+                <span>Original Listing</span>
+              </div>
+              <div class="comparison-image">
+                <img src="./images/redj-logo-transparent-background.png"
+                  alt="REDJ Media logo placeholder for enhanced listing">
+                <span>Enhanced Quality</span>
+              </div>
+            </div>
+            <figcaption>After enhancement: Professional clarity and high-end presentation.</figcaption>
+          </figure>
+          <figure class="comparison-card">
+            <div class="comparison-images">
+              <div class="comparison-image">
+                <img src="./images/redj-logo-transparent-background.png"
+                  alt="REDJ Media logo placeholder for original listing">
+                <span>Original Listing</span>
+              </div>
+              <div class="comparison-image">
+                <img src="./images/redj-logo-transparent-background.png"
+                  alt="REDJ Media logo placeholder for enhanced listing">
+                <span>Enhanced Quality</span>
+              </div>
+            </div>
+            <figcaption>Before enhancement: Natural textures and authentic Texas charm.</figcaption>
+          </figure>
+          <figure class="comparison-card">
+            <div class="comparison-images">
+              <div class="comparison-image">
+                <img src="./images/redj-logo-transparent-background.png"
+                  alt="REDJ Media logo placeholder for original listing">
+                <span>Original Listing</span>
+              </div>
+              <div class="comparison-image">
+                <img src="./images/redj-logo-transparent-background.png"
+                  alt="REDJ Media logo placeholder for enhanced listing">
+                <span>Enhanced Quality</span>
+              </div>
+            </div>
+            <figcaption>After enhancement: Professional clarity and high-end presentation.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pricing" id="pricing" aria-labelledby="pricing-title">
+      <div class="section-inner">
+        <h2 id="pricing-title">$29 Introductory Package</h2>
+        <p>Enhancements for up to 30 photos. Affordability meets quality.</p>
+        <a class="button" href="mailto:robduff@att.net?subject=REDJ%20Media%20introductory%20package">Claim Offer</a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="value-title">
+      <div class="section-inner value">
+        <h2 id="value-title">Accurate &amp; Affordable</h2>
+        <p>Traditional photography can be prohibitively expensive and often results in an overexposed, high-contrast
+          look that doesn't accurately represent the property. Our professional enhancement service provides a
+          natural, high-quality finish that ensures your listings are visually appealing and trustworthy without the
+          high costs of traditional photography.</p>
+      </div>
+    </section>
+
+    <section class="section audiences" aria-label="Who we serve">
+      <div class="section-inner audience-grid">
+        <article>
+          <h3>Independent Agents</h3>
+          <p>Empower your listings with professional enhancements that don't break the bank. Our $29 introductory
+            package is perfect for solo agents looking to stand out.</p>
+        </article>
+        <article>
+          <h3>Real Estate Teams</h3>
+          <p>Scale your brand with high-quality, consistent photo enhancement. Our team-focused packages ensure every
+            listing in your portfolio looks its best.</p>
+        </article>
+        <article>
+          <h3>Brokerages</h3>
+          <p>Professional-grade enhancements for large-scale operations. We provide the quality and reliability your
+            brokerage needs to attract top-tier clients.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href="#top" aria-label="REDJ Media home">
+      <img src="./images/redj-logo-transparent-background.png" alt="REDJ Media logo">
+    </a>
+    <div class="footer-contact">
+      <p><a href="mailto:robduff@att.net">robduff@att.net</a></p>
+      <p>Texas</p>
     </div>
-    <div>
-      <p>Elevate your listings with professional, natural-looking enhancements. We provide high-quality photo
-        improvements for Texas real estate professionals, ensuring your listings stand out without the high costs of
-        traditional photography.</p>
+    <div class="footer-bottom">
+      <p>&copy; 2026 REDJ Media. All rights reserved.</p>
+      <nav class="social-links" aria-label="Social media">
+        <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a>
+        <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer">Instagram</a>
+        <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a>
+        <a href="https://www.x.com" target="_blank" rel="noopener noreferrer">X</a>
+        <a href="https://www.linkedin.com" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://www.tiktok.com" target="_blank" rel="noopener noreferrer">TikTok</a>
+      </nav>
     </div>
-  </div>
+  </footer>
 </body>
 
 </html>
