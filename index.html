@@ -470,6 +470,113 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    /* Reusable before/after comparison component */
+    .photo-compare { margin-bottom: 1rem; }
+    .photo-compare-stage {
+      --split: 50%;
+      position: relative;
+      aspect-ratio: 4 / 3;
+      overflow: hidden;
+      background: #fff;
+      isolation: isolate;
+    }
+    .photo-compare-stage img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      pointer-events: none;
+      user-select: none;
+    }
+    .photo-compare-original {
+      clip-path: inset(0 calc(100% - var(--split)) 0 0);
+    }
+    .photo-compare-divider {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: var(--split);
+      width: 3px;
+      transform: translateX(-50%);
+      background: white;
+      box-shadow: 0 0 4px #0008;
+      pointer-events: none;
+    }
+    .photo-compare-handle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: white;
+      color: #202020;
+      box-shadow: 0 1px 6px #0006;
+      font-size: 22px;
+    }
+    .photo-compare-range {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      opacity: 0;
+      cursor: ew-resize;
+      touch-action: pan-y;
+    }
+    .photo-compare-stage:focus-within {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
+    }
+    .photo-compare-label {
+      position: absolute;
+      top: .6rem;
+      padding: .2rem .55rem;
+      background: #fff;
+      font-size: .72rem;
+      font-weight: 700;
+      pointer-events: none;
+    }
+    .photo-compare-label-original { left: .6rem; }
+    .photo-compare-label-enhanced { right: .6rem; }
+    .photo-compare-controls {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: .4rem;
+      margin-top: .75rem;
+    }
+    .photo-compare-controls button {
+      min-height: 44px;
+      padding: .4rem .15rem;
+      border: 1px solid #202020;
+      border-radius: 2px;
+      background: #fff;
+      color: #202020;
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .photo-compare-controls button[aria-pressed="true"] {
+      background: #202020;
+      color: #fff;
+    }
+    .photo-compare-controls button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 2px;
+    }
+    .photo-compare-hint {
+      margin: .5rem 0 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: .8rem;
+    }
+    .photo-compare [hidden] { display: none; }
   </style>
 </head>
 
@@ -505,6 +612,25 @@
         </div>
         <div class="gallery">
           <figure class="comparison-card">
+            <div class="photo-compare" data-photo-compare hidden>
+              <div class="photo-compare-stage">
+                <img src="./images/01of20-enhanced.png" alt="Enhanced exterior" draggable="false">
+                <img class="photo-compare-original" src="./images/01of20.png" alt="Original exterior" draggable="false">
+                <span class="photo-compare-label photo-compare-label-original" aria-hidden="true">Original</span>
+                <span class="photo-compare-label photo-compare-label-enhanced" aria-hidden="true">Enhanced</span>
+                <div class="photo-compare-divider" aria-hidden="true"><span class="photo-compare-handle">↔</span></div>
+                <input class="photo-compare-range" type="range" min="0" max="100" step="1" value="50"
+                  aria-label="Exterior photo comparison: percentage of original visible"
+                  aria-valuetext="50% original, 50% enhanced">
+              </div>
+              <div class="photo-compare-controls" role="group" aria-label="Exterior comparison view">
+                <button type="button" data-split="100" aria-pressed="false">Original</button>
+                <button type="button" data-split="50" aria-pressed="true">Compare</button>
+                <button type="button" data-split="0" aria-pressed="false">Enhanced</button>
+              </div>
+              <p class="photo-compare-hint">Drag the divider or select a view.</p>
+            </div>
+            <noscript>
             <div class="comparison-images">
               <div class="comparison-image">
                 <img src="./images/tn01of20.png"
@@ -517,6 +643,7 @@
                 <span>Enhanced</span>
               </div>
             </div>
+            </noscript>
             <figcaption><center><strong>Exterior</strong><br/><strong>Benefit:</strong>Enhanced lighting and curb appeal</center></figcaption>
           </figure>
           <figure class="comparison-card">
@@ -642,6 +769,59 @@
       </nav>
     </div>
   </footer>
+  <script>
+    // Initialize each comparison independently; no external dependencies.
+    document.querySelectorAll('[data-photo-compare]').forEach(component => {
+      const stage = component.querySelector('.photo-compare-stage');
+      const range = component.querySelector('.photo-compare-range');
+      const divider = component.querySelector('.photo-compare-divider');
+      const originalLabel = component.querySelector('.photo-compare-label-original');
+      const enhancedLabel = component.querySelector('.photo-compare-label-enhanced');
+      const buttons = component.querySelectorAll('[data-split]');
+
+      function setSplit(value) {
+        const split = Math.max(0, Math.min(100, Math.round(Number(value))));
+        range.value = split;
+        stage.style.setProperty('--split', `${split}%`);
+        range.setAttribute('aria-valuetext', `${split}% original, ${100 - split}% enhanced`);
+        divider.hidden = split === 0 || split === 100;
+        originalLabel.hidden = split < 25;
+        enhancedLabel.hidden = split > 75;
+        buttons.forEach(button => button.setAttribute('aria-pressed', String(Number(button.dataset.split) === split)));
+      }
+
+      range.addEventListener('input', () => setSplit(range.value));
+      buttons.forEach(button => button.addEventListener('click', () => setSplit(button.dataset.split)));
+
+      // Map pointer coordinates to the full image width, not the native thumb track.
+      let activePointer = null;
+      function moveDivider(event) {
+        const bounds = stage.getBoundingClientRect();
+        setSplit((event.clientX - bounds.left) / bounds.width * 100);
+      }
+      range.addEventListener('pointerdown', event => {
+        if (!event.isPrimary || event.button !== 0) return;
+        event.preventDefault();
+        range.focus({ preventScroll: true });
+        activePointer = event.pointerId;
+        range.setPointerCapture(event.pointerId);
+        moveDivider(event);
+      });
+      range.addEventListener('pointermove', event => {
+        if (event.pointerId === activePointer) moveDivider(event);
+      });
+      range.addEventListener('pointerup', event => {
+        if (event.pointerId === activePointer) {
+          moveDivider(event);
+          activePointer = null;
+        }
+      });
+      range.addEventListener('pointercancel', () => { activePointer = null; });
+      range.addEventListener('lostpointercapture', () => { activePointer = null; });
+      setSplit(50);
+      component.hidden = false;
+    });
+  </script>
 </body>
 
 </html>
